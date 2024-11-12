@@ -153,17 +153,17 @@ erDiagram
 ./
 ├── group.yml
 ├── olap_model
-│   ├── dimensions
-│   │   ├── dim_customers.sql
-│   │   ├── dim_date.sql
-│   │   ├── dim_employee.sql
-│   │   ├── dimension.yml
-│   │   ├── dim_location.sql
-│   │   ├── dim_products.sql
-│   │   └── dim_suppliers.sql
-│   └── orders
-│       ├── fact_orders.sql
-│       └── orders.yml
+│   ├── dimensions
+│   │   ├── dim_customers.sql
+│   │   ├── dim_date.sql
+│   │   ├── dim_employee.sql
+│   │   ├── dimension.yml
+│   │   ├── dim_location.sql
+│   │   ├── dim_products.sql
+│   │   └── dim_suppliers.sql
+│   └── orders
+│       ├── fact_orders.sql
+│       └── orders.yml
 ├── source.yml
 └── staging
     ├── staging.yml
@@ -174,6 +174,7 @@ erDiagram
     ├── stg_orders.sql
     ├── stg_product.sql
     └── stg_suppliers.sql
+
 
 
 
