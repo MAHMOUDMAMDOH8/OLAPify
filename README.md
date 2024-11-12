@@ -39,3 +39,9 @@ flowchart LR
     classDef staging fill:#ccf,stroke:#333,stroke-width:2px;
     classDef transformation fill:#fcf,stroke:#333,stroke-width:2px;
     classDef fact fill:#cfc,stroke:#333,stroke-width:2px;
+    
+    %% Apply background color to the whole diagram
+    style A, B, C, D, G, Gs, F fill:#333,stroke:#fff,stroke-width:1px;
+    style A, B fill:#333;
+    style C, G fill:#222;
+    style D, Gs, F fill:#111;
