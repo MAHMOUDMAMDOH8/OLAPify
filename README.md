@@ -52,8 +52,7 @@ D --"Replace source foreign keys with new pproducts surrogate keys"--> F;
 
 | Surrogate Key   | Logic                                        |
 |-----------------|----------------------------------------------|
-| `category_sk`   | MD5 Hash of cleaned `category_name`          |
-| `product_sk`    | MD5 Hash of cleaned `product_name`           |
+| `product_sk`     | MD5 Hash of cleaned `product_name`          |
 | `supplier_sk`   | MD5 Hash of cleaned `supplier_name`          |
 | `employee_sk`   | MD5 Hash of cleaned `employee_name`          |
 | `data_sk`       | MD5 Hash of cleaned `date` (from `dim_date`) |
