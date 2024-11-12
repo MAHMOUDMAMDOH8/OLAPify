@@ -59,9 +59,120 @@ D --"Replace source foreign keys with new pproducts surrogate keys"--> F;
 | `data_sk`       | MD5 Hash of cleaned `date` (from `dim_date`) |
 | `location_sk`   | MD5 Hash of cleaned `location_name`          |
 
-Data Lineage
+## Data Lineage
 ![Screenshot from 2024-11-12 11-05-55](https://github.com/user-attachments/assets/84ca0f03-63ba-4ea3-9261-18d1899e2aa5)
 
+## ERD
+
+```mermaid
+    DIM_CUSTOMERS {
+        string customer_sk
+        string contact_name
+        string contact_title
+        string company_name
+        string location_sk
+    }
+    DIM_DATE {
+        string date_sk
+        date full_date
+        int year
+        int month
+        int day
+        string day_name
+    }
+    DIM_EMPLOYEE {
+        string employee_sk
+        string first_name
+        string last_name
+        string title
+        date birth_date
+        date hire_date
+        string location_sk
+        string home_phone
+    }
+    DIM_LOCATION {
+        string location_sk
+        string address
+        string city
+        string region
+        string postal_code
+        string country
+    }
+    DIM_PRODUCTS {
+        string product_sk
+        string product_name
+        string category_sk
+        string category_name
+        float unit_price
+        string quantity_per_unit
+        boolean discontinued
+    }
+    DIM_SUPPLIERS {
+        string supplier_sk
+        int supplier_id
+        string company_name
+        string contact_name
+        string contact_title
+        string homepage
+        string location_sk
+    }
+    FACT_ORDERS {
+        string transaction_id
+        int order_id
+        int supplier_sk
+        string customer_sk
+        string employee_sk
+        string order_date_sk
+        string ship_date_sk
+        string product_sk
+        string location_sk
+        numeric unit_price
+        int quantity
+        numeric discount
+        int ship_via
+        numeric freight
+        string ship_name
+    }
+
+    DIM_CUSTOMERS ||--o| DIM_LOCATION : has_location
+    DIM_EMPLOYEE ||--o| DIM_LOCATION : has_location
+    DIM_SUPPLIERS ||--o| DIM_LOCATION : has_location
+    FACT_ORDERS ||--o| DIM_CUSTOMERS : places
+    FACT_ORDERS ||--o| DIM_EMPLOYEE : handled_by
+    FACT_ORDERS ||--o| DIM_DATE : ordered_on
+    FACT_ORDERS ||--o| DIM_DATE : shipped_on
+    FACT_ORDERS ||--o| DIM_PRODUCTS : includes
+    FACT_ORDERS ||--o| DIM_LOCATION : ships_from
+   FACT_ORDERS ||--o|  DIM_SUPPLIERS: handled_by
+
+```
+
+## dbt Model Structure
+
+./
+├── group.yml
+├── olap_model
+│   ├── dimensions
+│   │   ├── dim_customers.sql
+│   │   ├── dim_date.sql
+│   │   ├── dim_employee.sql
+│   │   ├── dimension.yml
+│   │   ├── dim_location.sql
+│   │   ├── dim_products.sql
+│   │   └── dim_suppliers.sql
+│   └── orders
+│       ├── fact_orders.sql
+│       └── orders.yml
+├── source.yml
+└── staging
+    ├── staging.yml
+    ├── stg_category.sql
+    ├── stg_customer.sql
+    ├── stg_employee.sql
+    ├── stg_order_details.sql
+    ├── stg_orders.sql
+    ├── stg_product.sql
+    └── stg_suppliers.sql
 
 
 
