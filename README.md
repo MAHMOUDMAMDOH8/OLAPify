@@ -1,43 +1,28 @@
 # OLAPify
 
-
-DISCLAIMER: This project uses northwind as source data, which is a publicly avaiable dataset.
+**DISCLAIMER:** This project uses the Northwind dataset as the source data, which is a publicly available dataset.
 
 ## Project Objectives
 
 This project aims to craft a modern data warehouse solution that:
 
-    Tracks orders by product, cateory and location.
-    Tracks product price chaneges using Slowly Chaning Dimension (SCD) type 2.
+- Tracks orders by product, category, and location.
+- Tracks product price changes using Slowly Changing Dimension (SCD) type 2.
 
-# Business Logic
+## Business Logic
 
-    Cutomer names, products name, cateories, location data are consistent a cross all sources.
-    It's planned to integrate more ddata sources in the future.
+- Customer names, product names, categories, and location data are consistent across all sources.
+- It is planned to integrate more data sources in the future.
 
-Approach
-flowchart LR;
-    A[Source 1]
-    B[Source 2]
-    C[Staging table orders]
-    D[Join operation]
-    F[Orders fact]
-    G[Staging table products]
-    Gs[MD5]
+## Approach
 
-    A -- "store 'source 1' in data_src" --> C
-    B -- "store 'source 2' in data_src" --> C
-
-    A -- "store 'source 1' in data_src" --> G
-    B -- "store 'source 2' in data_src" --> G
-
-    G -- "create surrogate key" --> Gs
-    C -- "product_id AND data_src" --> D
-    Gs -- "product_id AND data_src" --> D
-
-    D -- "Replace source foreign keys with new products surrogate keys" --> F
-
-
-
-
-
+```mermaid
+flowchart LR
+    A[Source 1] -->| "store 'source 1' in data_src" | C[Staging table orders]
+    B[Source 2] -->| "store 'source 2' in data_src" | C
+    A -->| "store 'source 1' in data_src" | G[Staging table products]
+    B -->| "store 'source 2' in data_src" | G
+    G -->| "create surrogate key" | Gs[MD5]
+    C -->| "product_id AND data_src" | D[Join operation]
+    Gs -->| "product_id AND data_src" | D
+    D -->| "Replace source foreign keys with new product surrogate keys" | F[Orders fact]
