@@ -38,8 +38,9 @@ C -- "product_id AND data_src" --> D
 Gs -- "product_id AND data_src" --> D
 
 
-D --"Replace source foreign keys with new pproducts surrogate keys"--> F ;
+D --"Replace source foreign keys with new pproducts surrogate keys"--> F;
 
+```
 
 
     Adding addition column in all staing tables called data_src to store source's name
