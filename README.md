@@ -61,6 +61,8 @@ D --"Replace source foreign keys with new pproducts surrogate keys"--> F;
 ## Data Lineage
 ![Screenshot from 2024-11-12 11-05-55](https://github.com/user-attachments/assets/84ca0f03-63ba-4ea3-9261-18d1899e2aa5)
 
+![Screenshot from 2024-11-12 13-15-07](https://github.com/user-attachments/assets/8b9df5ed-1005-4562-8589-2d15a16f202b)
+
 ## ERD
 
 ```mermaid
