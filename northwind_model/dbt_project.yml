@@ -1,0 +1,41 @@
+name: 'northwind_model'
+version: '1.0.0'
+profile: 'northwind_model'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:         
+  - "target"
+  - "dbt_packages"
+
+models: 
+  northwind_model:
+    staging:
+      +schema: staging_tables
+      +docs:
+        node_color: "green"
+      +tags: "staging"
+
+    marts:
+      dimensions:
+        +docs:
+          node_color: "brown"
+        +tags: "dimensions"
+
+      orders: 
+        +docs:
+          node_color: "black"
+        +group: orders
+        +tags: "orders"
+
+tests:
+  +store_failures: true
+  +schema: _sad_test_failures
+  northwind_model:
+    staging:
+      +severity: warn

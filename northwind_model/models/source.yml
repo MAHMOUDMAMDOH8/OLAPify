@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: northwind_raw
+    database: northwind
+    schema: oltp_model
+    tables:
+      - name: products
+      - name: categories
+      - name: customers
+      - name: employees
+      - name: orders
+      - name: order_details
+      - name: suppliers

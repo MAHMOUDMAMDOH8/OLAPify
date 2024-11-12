@@ -1,0 +1,10 @@
+groups:
+  - name: orders
+    owner:
+      name: ma7moud
+
+
+
+  - name: suppliers
+    owner:
+      name: ma7moud

@@ -1,0 +1,12 @@
+northwind_model:
+  outputs:
+    dev:
+      dbname: northwind
+      host: 172.18.0.2
+      pass: '8122'
+      port: 5432
+      schema: OLAP_model
+      threads: 4
+      type: postgres
+      user: mahmoud
+  target: dev

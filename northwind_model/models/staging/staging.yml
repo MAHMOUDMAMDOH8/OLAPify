@@ -1,0 +1,294 @@
+version: 2
+models:
+
+  # product staging tables 
+  - name: stg_products
+    description: "Products data from Northwind dataset"
+    columns:
+      - name: product_id
+        description: "ID of the product"
+        data_tests:
+          - not_null
+      - name: product_name
+        description: "Name of the product"
+        data_tests:
+          - not_null
+          - unique
+      - name: supplier_id
+        description: "ID of the product supplier"
+        data_tests:
+          - not_null
+      - name: category_id
+        description: "ID of the category to which the product belongs"
+        data_tests:
+          - not_null
+      - name: unit_price
+        description: "Price of the product"
+        data_tests:
+          - not_null
+          - greater_than_zero  
+      - name: dbt_scd_id
+        description: "Slowly changing dimension ID for the product"
+        data_tests:
+          - unique
+          - not_null
+      - name: product_SK
+        description: "Surrogate key for the product"
+        data_tests:
+          - not_null
+          - unique
+      - name: discontinued
+        description: "Indicates whether the product is discontinued"
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+  
+  # customers staging tables 
+  - name: stg_customers
+    description: "Customers data from the Northwind database"
+    columns:
+      - name: customer_id
+        description: "Unique identifier for the customer"
+        data_tests:
+          - not_null
+      - name: company_name
+        description: "Name of the customer's company"
+        data_tests:
+          - not_null
+      - name: contact_name
+        description: "Name of the customer contact"
+      - name: contact_title
+        description: "Job title of the customer's contact person"
+        data_tests:
+          - not_null
+      - name: customer_sk
+        description: "Surrogate key for customers, uniquely identifying each customer generated from customer_id || company_name || contact_name"
+        data_tests:
+          - not_null
+          - unique
+      - name: address
+        description: "Address of the customer"
+        data_tests:
+          - not_null
+      - name: postal_code
+        description: "Postal code for the customer's address"
+        data_tests:
+          - not_null
+      - name: city
+        description: "City where the customer is located"
+        data_tests:
+          - not_null
+      - name: region
+        description: "Region where the customer is located"
+      - name: country
+        description: "Country where the customer is located"
+        data_tests:
+          - not_null
+
+  # suppliers staging tables 
+  - name: stg_suppliers
+    description: "Suppliers data from the Northwind database"
+    columns:
+      - name: supplier_id
+        description: "Unique identifier for the suppliers"
+        data_tests:
+          - not_null
+      - name: company_name
+        description: "Name of the supplier's company"
+        data_tests:
+          - not_null
+      - name: contact_name
+        description: "Name of the supplier's contact person"
+        data_tests:
+          - not_null
+      - name: contact_title
+        description: "Job title of the supplier's contact person"
+        data_tests:
+          - not_null
+      - name: supplier_sk
+        description: "Surrogate key for suppliers, uniquely identifying each supplier generated from supplier_id || company_name || contact_name"
+        data_tests:
+          - not_null
+          - unique
+      - name: address
+        description: "Address of the suppliers"
+        data_tests:
+          - not_null
+      - name: postal_code
+        description: "Postal code for the supplier's address"
+        data_tests:
+          - not_null
+      - name: city
+        description: "City where the supplier is located"
+        data_tests:
+          - not_null
+      - name: region
+        description: "Region where the supplier is located"
+      - name: country
+        description: "Country where the supplier is located"
+        data_tests:
+          - not_null
+      - name: homepage
+        description: "Homepage for the supplier"
+
+  # category staging tables 
+  - name: stg_categories
+    description: "Category data for products"
+    columns: 
+      - name: category_id
+        description: "Unique identifier for the category"  
+        tests:
+          - not_null
+      - name: category_name
+        description: "Name of the category"  
+        tests:
+          - not_null
+      - name: category_sk
+        description: "Surrogate key for the category generated from category_id"  
+        tests:
+          - not_null
+          - unique
+      - name: description
+        description: "description  for the category "  
+        tests:
+          - not_null
+      - name: picture
+        description: "picture for category"  
+        tests:
+          - not_null
+
+  # employee staging tables 
+  - name: stg_employee
+    description: "Employee data from the Northwind database"
+    columns:
+      - name: employee_id
+        description: "Unique identifier for the employee"
+        tests:
+          - not_null
+      - name: first_name
+        description: "First name of the employee"
+        tests:
+          - not_null
+      - name: last_name
+        description: "Last name of the employee"
+      - name: title
+        description: "Job title of the employee's contact person"
+        tests:
+          - not_null
+      - name: employee_sk
+        description: "Surrogate key for employee, uniquely identifying each employee generated from employee_id, first_name, and last_name"
+        tests:
+          - not_null
+          - unique
+      - name: address
+        description: "Address of the employee"
+        tests:
+          - not_null
+      - name: postal_code
+        description: "Postal code for the employee's address"
+        tests:
+          - not_null
+      - name: city
+        description: "City where the employee is located"
+        tests:
+          - not_null
+      - name: region
+        description: "Region where the employee is located"
+      - name: country
+        description: "Country where the employee is located"
+        tests:
+          - not_null
+      - name: hire_date
+        description: "Hire date for the employee"
+        tests:
+          - not_null
+      - name: home_phone
+        description: "Phone number of the employee"
+
+  # order staging tables 
+  - name: stg_orders
+    description: "Orders data from the Northwind database"
+    columns:
+      - name: order_id
+        description: "Unique identifier for each order"
+        tests:
+          - not_null
+      - name: customer_id
+        description: "ID of the customer placing the order"
+        tests:
+          - not_null
+      - name: employee_id
+        description: "ID of the employee processing the order"
+        tests:
+          - not_null
+      - name: order_date
+        description: "Date the order was placed"
+        tests:
+          - not_null
+      - name: required_date
+        description: "Date by which the order is required to be fulfilled"
+        tests:
+          - not_null
+      - name: shipped_date
+        description: "Date the order was shipped"
+        tests:
+          - not_null
+      - name: ship_via
+        description: "Shipping method used for the order"
+        tests:
+          - not_null
+      - name: freight
+        description: "Freight cost for the order shipment"
+        tests:
+          - not_null
+      - name: ship_name
+        description: "Name of the recipient for the shipment"
+        tests:
+          - not_null
+      - name: ship_address
+        description: "Address to which the order is shipped"
+        tests:
+          - not_null
+      - name: ship_city
+        description: "City where the order is shipped"
+        tests:
+          - not_null
+      - name: ship_region
+        description: "Region where the order is shipped"
+      - name: ship_postal_code
+        description: "Postal code of the shipping address"
+        tests:
+          - not_null
+      - name: ship_country
+        description: "Country where the order is shipped"
+        tests:
+          - not_null
+
+  - name: stg_order_details
+    description: "Order details from Northwind dataset"
+    columns:
+      - name: order_id
+        description: "ID of the order"
+        tests:
+          - not_null
+      - name: product_id
+        description: "ID of the product ordered"
+        tests:
+          - not_null
+      - name: unit_price
+        description: "Price per unit of the product"
+        tests:
+          - not_null
+          - greater_than_zero
+      - name: quantity
+        description: "Quantity of the product ordered"
+        tests:
+          - not_null
+          - greater_than_zero
+      - name: discount
+        description: "Discount applied to the order"
+        tests:
+          - not_null
+          - percentage
+

@@ -1,0 +1,17 @@
+version: 2
+
+snapshots:
+  - name: CDC_products_price_discontinued
+    description: "Snapshot of the products table to track changes in unit_price and discontinued status"
+    columns:
+      - name: product_id
+        data_tests:
+          - unique  
+          - not_null  
+      - name: unit_price
+        data_tests:
+          - not_null 
+          - greater_than_zero
+      - name: discontinued
+        data_tests:
+          - not_null  
