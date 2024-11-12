@@ -149,27 +149,37 @@ erDiagram
 ```
 
 
+## dbt Model Structure
+``` bash
+> tree ./northwind_model/models 
+./
+├── group.yml
+├── olap_model
+│   ├── dimensions
+│   │   ├── dim_customers.sql
+│   │   ├── dim_date.sql
+│   │   ├── dim_employee.sql
+│   │   ├── dimension.yml
+│   │   ├── dim_location.sql
+│   │   ├── dim_products.sql
+│   │   └── dim_suppliers.sql
+│   └── orders
+│       ├── fact_orders.sql
+│       └── orders.yml
+├── source.yml
+└── staging
+    ├── staging.yml
+    ├── stg_category.sql
+    ├── stg_customer.sql
+    ├── stg_employee.sql
+    ├── stg_order_details.sql
+    ├── stg_orders.sql
+    ├── stg_product.sql
+    └── stg_suppliers.sql
 
-This section details how the data warehouse schema is implemented using dbt:
 
-/
-├── group.yml       
-├── olap_model      
-│   ├── dimensions  
-│   │   ├── dim_customers.sql  
-│   │   ├── dim_date.sql       
-│   │   # ... (
-│   │   └── dimension.yml     
-│   └── orders      
-│       ├── fact_orders.sql    
-│       └── orders.yml        
-├── source.yml       
-└── staging          
-    ├── staging.yml   
-    ├── stg_category.sql  
-    ├── stg_customer.sql  
-    # ... (other staging table scripts)
-    └── stg_suppliers.sql   
+5 directories, 18 files
+
 
 
 
