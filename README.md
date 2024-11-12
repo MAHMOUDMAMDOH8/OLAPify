@@ -17,31 +17,27 @@ This project aims to craft a modern data warehouse solution that:
 ## Approach
 
 ```mermaid
-flowchart LR
-    A[Source 1] --> C[Staging table orders]
-    A --> G[Staging table products]
-    B[Source 2] --> C
-    B --> G
-    C --> D[Join operation]
-    G --> Gs[MD5]
-    Gs --> D
-    D --> F[Orders fact]
+flowchart LR;
+A[Source 1]
+B[Source 2]
+C[Staing table orders]
+D[Join operation]
+F[Orders fact]
+G[Staging table products]
 
-    A:::data_src
-    B:::data_src
-    C:::staging
-    G:::staging
-    Gs:::transformation
-    D:::transformation
-    F:::fact
+A -- "store 'source 1' in data_src" --> C
+B -- "store 'source 2' in data_src" --> C
 
-    classDef data_src fill:#f9f,stroke:#333,stroke-width:2px;
-    classDef staging fill:#ccf,stroke:#333,stroke-width:2px;
-    classDef transformation fill:#fcf,stroke:#333,stroke-width:2px;
-    classDef fact fill:#cfc,stroke:#333,stroke-width:2px;
-    
-    %% Apply background color to the whole diagram
-    style A, B, C, D, G, Gs, F fill:#333,stroke:#fff,stroke-width:1px;
-    style A, B fill:#333;
-    style C, G fill:#222;
-    style D, Gs, F fill:#111;
+A -- "store 'source 1' in data_src" --> G
+B -- "store 'source 2' in data_src" --> G
+
+G -- "create surrogate key" --> Gs[MD5]
+
+
+C -- "product_id AND data_src" --> D
+Gs -- "product_id AND data_src" --> D
+
+
+D --"Replace source foreign keys with new pproducts surrogate keys"--> F
+
+
