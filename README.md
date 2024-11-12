@@ -65,6 +65,7 @@ D --"Replace source foreign keys with new pproducts surrogate keys"--> F;
 ## ERD
 
 ```mermaid
+erDiagram
     DIM_CUSTOMERS {
         string customer_sk
         string contact_name
@@ -119,7 +120,6 @@ D --"Replace source foreign keys with new pproducts surrogate keys"--> F;
     FACT_ORDERS {
         string transaction_id
         int order_id
-        int supplier_sk
         string customer_sk
         string employee_sk
         string order_date_sk
@@ -143,7 +143,8 @@ D --"Replace source foreign keys with new pproducts surrogate keys"--> F;
     FACT_ORDERS ||--o| DIM_DATE : shipped_on
     FACT_ORDERS ||--o| DIM_PRODUCTS : includes
     FACT_ORDERS ||--o| DIM_LOCATION : ships_from
-   FACT_ORDERS ||--o|  DIM_SUPPLIERS: handled_by
+    FACT_ORDERS ||--o| DIM_SUPPLIERS: handled_by
+
 
 ```
 
