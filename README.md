@@ -56,7 +56,7 @@ D --"Replace source foreign keys with new pproducts surrogate keys"--> F;
 | `supplier_sk`   | MD5 Hash of cleaned `supplier_name`          |
 | `employee_sk`   | MD5 Hash of cleaned `employee_name`          |
 | `data_sk`       | MD5 Hash of cleaned `date` (from `dim_date`) |
-| `location_sk`   | MD5 Hash of cleaned `location_name`          |
+| `location_sk`   | MD5 Hash of cleaned `address|| postalcode`   |
 
 ## Data Lineage
 ![Screenshot from 2024-11-12 11-05-55](https://github.com/user-attachments/assets/84ca0f03-63ba-4ea3-9261-18d1899e2aa5)
