@@ -6,7 +6,7 @@ services:
     container_name: postgres_dbt
     environment:
       POSTGRES_USER: mahmoud
-      POSTGRES_PASSWORD: 8122
+      POSTGRES_PASSWORD: 
       POSTGRES_DB: postgres
     ports:
       - "5432:5432"
