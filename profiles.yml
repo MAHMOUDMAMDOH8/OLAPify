@@ -3,7 +3,7 @@ northwind_model:
     dev:
       dbname: northwind
       host: 172.18.0.2
-      pass: '8122'
+      pass: ''
       port: 5432
       schema: OLAP_model
       threads: 4
