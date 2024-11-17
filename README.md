@@ -134,7 +134,6 @@ erDiagram
         numeric freight
         string ship_name
     }
-
     FACT_ORDERS ||--o| DIM_CUSTOMERS : places
     FACT_ORDERS ||--o| DIM_EMPLOYEE : handled_by
     FACT_ORDERS ||--o| DIM_DATE : ordered_on
