@@ -13,34 +13,8 @@
     'address', 'city', 'postal_code'
 ] %}
 
-with customer_location as (
-    select
-        DISTINCT address,
-        city,
-        region,
-        postal_code,
-        country
-    from {{ref("stg_customer")}}
-),
-employee_location as (
-    select
-        DISTINCT address,
-        city,
-        region,
-        postal_code,
-        country
-    from {{ref('stg_employee')}}
-),
-supplier_location as(
-    select
-        DISTINCT address,
-        city,
-        region,
-        postal_code,
-        country
-    from {{ref("stg_suppliers")}}
-),
-order_location as(
+
+with order_location as(
     SELECT  
         DISTINCT ship_address AS address,
         ship_city AS city,
@@ -51,12 +25,6 @@ order_location as(
 ),
 location_dim as (
     select * from order_location
-    union 
-    select * from supplier_location
-    union 
-    select * from employee_location
-    union
-    select * from customer_location
 )
 
 select 
