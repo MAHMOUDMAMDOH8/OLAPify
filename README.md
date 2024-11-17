@@ -135,9 +135,6 @@ erDiagram
         string ship_name
     }
 
-    DIM_CUSTOMERS ||--o| DIM_LOCATION : has_location
-    DIM_EMPLOYEE ||--o| DIM_LOCATION : has_location
-    DIM_SUPPLIERS ||--o| DIM_LOCATION : has_location
     FACT_ORDERS ||--o| DIM_CUSTOMERS : places
     FACT_ORDERS ||--o| DIM_EMPLOYEE : handled_by
     FACT_ORDERS ||--o| DIM_DATE : ordered_on
