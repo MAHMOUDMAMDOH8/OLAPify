@@ -1,4 +1,4 @@
-name: 🔨 Building env dbt models 👾
+name: main
 
 on:
   pull_request:
