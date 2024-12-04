@@ -1,89 +1,44 @@
-name: CI/CD for OLAPify
+name: 🔨 Building env dbt models 👾
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  setup:
-    name: Setup Environment
-    runs-on: ubuntu-latest
+  Test-Development-Initialization:
+    runs-on: ubuntu-20.04
     steps:
-      # Step 1: Checkout code
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+      - name: 📥 Checkout Branch
+        run: |
+          # Hack to get setup-python to work on act
+          if [ ! -f "/etc/lsb-release" ] ; then
+            echo "DISTRIB_RELEASE=20.04" > /etc/lsb-release
+          fi
 
-      # Step 2: Set up Python environment
-      - name: Set up Python 3.9
+      - name: 🐍 Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: '3.10'
 
-      # Step 3: Install dependencies
-      - name: Install Python dependencies
+      - name: 📦 Install Python Requirements
+        run: pip install -r requirements.txt
+        
+      - name: 🛠️ Initialize Database and Run dbt
+        run: sh github-actions-psql-init.sh
+     
+      - name: 🚀 Run dbt Commands
+        env:
+          NORTHWIND_DB_NAME:     ${{ secrets.NORTHWIND_DB_NAME }}
+          NORTHWIND_DB_USER:     ${{ secrets.NORTHWIND_USERNAME }}
+          NORTHWIND_DB_PASSWORD: ${{ secrets.NORTHWIND_PASSWORD }}
+          NORTHWIND_DB_HOST:     172.18.0.2
+          NORTHWIND_DB_SCHEMA:   OLAP_model
         run: |
-          python -m pip install --upgrade pip
-          pip install dbt-core dbt-postgres sqlfluff
-
-  dbt-validate:
-    name: Validate dbt Models
-    runs-on: ubuntu-latest
-    needs: setup
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Install dbt and dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install dbt-core dbt-postgres
-
-      - name: Set up dbt profiles
-        run: |
-          mkdir -p ~/.dbt
-          echo "${{ secrets.DBT_PROFILES }}" > ~/.dbt/profiles.yml
-
-      - name: Test dbt Compilation
-        run: |
-          dbt deps
-          dbt compile --profiles-dir ~/.dbt
-
-      - name: Run dbt Tests
-        run: |
-          dbt test --profiles-dir ~/.dbt
-
-  lint-sql:
-    name: Lint SQL Files
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Install sqlfluff
-        run: pip install sqlfluff
-
-      - name: Lint SQL files
-        run: |
-          sqlfluff lint northwind_model --dialect postgres
-          sqlfluff fix northwind_model --dialect postgres --force
-
-  deploy:
-    name: Build and Deploy
-    runs-on: ubuntu-latest
-    needs: [dbt-validate, lint-sql]
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Build and Start Docker Compose
-        run: |
-          docker-compose down
-          docker-compose up -d --build
-
-      - name: Run dbt Models in Production
-        run: |
-          dbt run --profiles-dir ~/.dbt
+          cd ./northwind_model
+          dbt debug --profiles-dir ..
+          dbt deps --profiles-dir ..
+          dbt snapshot --profiles-dir ..
+          dbt run -f --profiles-dir ..
+          dbt run --profiles-dir ..
+          dbt test --profiles-dir ..
